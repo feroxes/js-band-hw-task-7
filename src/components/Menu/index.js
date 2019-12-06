@@ -1,9 +1,11 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
+import { connect } from 'react-redux';
 import BaseInput from '../ui/BaseInput';
 import BaseSelect from '../ui/BaseSelect';
 import BaseButton from '../ui/BaseButton';
+import { filterBy, searchByTitle } from '../../actions/todoList';
 
 class Menu extends Component {
   constructor(props) {
@@ -19,13 +21,16 @@ class Menu extends Component {
     this.setState({
       [name]: value,
     });
-    this.filterTasks(name, value);
+
+    const { onSearchByTitle } = this.props;
+    if (name === 'search') onSearchByTitle(value);
+    else this.filterTasks(name, value);
   };
 
   filterTasks = (name, value) => {
-    const { filterTasksList } = this.props;
-    if (name === 'isDone' && value !== 'all') filterTasksList(name, value === 'done');
-    else filterTasksList(name, value);
+    const { onFilterBy } = this.props;
+    if (name === 'isDone' && value !== 'all') onFilterBy({ name, value: value === 'done' });
+    else onFilterBy({ name, value });
   };
 
   render() {
@@ -73,7 +78,18 @@ class Menu extends Component {
 
 Menu.propTypes = {
   toggleModal: PropTypes.func.isRequired,
-  filterTasksList: PropTypes.func.isRequired,
+  onFilterBy: PropTypes.func.isRequired,
+  onSearchByTitle: PropTypes.func.isRequired,
 };
 
-export default Menu;
+const mapDispatchToProps = dispatch => {
+  return {
+    onFilterBy: data => dispatch(filterBy(data)),
+    onSearchByTitle: data => dispatch(searchByTitle(data)),
+  };
+};
+
+export default connect(
+  null,
+  mapDispatchToProps
+)(Menu);

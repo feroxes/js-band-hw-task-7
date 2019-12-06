@@ -1,6 +1,6 @@
-# Ciklum University: JS Band Internship. Homework task 6
+# Ciklum University: JS Band Internship. Homework task 7
 
-<a href="https://feroxes.github.io/js-band-hw-task-6/">Demo</a>
+<a href="https://feroxes.github.io/js-band-hw-task-7/">Demo</a>
 
 ## To install project
 

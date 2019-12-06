@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import './Modal.scss';
 
@@ -6,6 +7,8 @@ import BaseInput from '../ui/BaseInput';
 import BaseTextArea from '../ui/BaseTextArea';
 import BaseSelect from '../ui/BaseSelect';
 import BaseButton from '../ui/BaseButton';
+
+import { addNewTask, deleteEditableTask, updateTask } from '../../actions/todoList';
 
 class Modal extends Component {
   constructor(props) {
@@ -39,9 +42,17 @@ class Modal extends Component {
   };
 
   handleOnSaveButtonClick = () => {
-    const { editableTask, addTask, updateTask, toggleModal } = this.props;
-    if (editableTask) updateTask(this.state);
-    else addTask(this.state);
+    const {
+      editableTask,
+      onAddNewTask,
+      onUpdateTask,
+      toggleModal,
+      onDeleteEditableTask,
+    } = this.props;
+    if (editableTask) {
+      onUpdateTask(this.state);
+      onDeleteEditableTask();
+    } else onAddNewTask(this.state);
     this.clearState();
     toggleModal();
   };
@@ -106,14 +117,29 @@ class Modal extends Component {
 
 Modal.propTypes = {
   toggleModal: PropTypes.func.isRequired,
-  addTask: PropTypes.func.isRequired,
-  updateTask: PropTypes.func.isRequired,
+  onAddNewTask: PropTypes.func.isRequired,
+  onUpdateTask: PropTypes.func.isRequired,
   modalTitle: PropTypes.string.isRequired,
   editableTask: PropTypes.instanceOf(Object),
+  onDeleteEditableTask: PropTypes.func.isRequired,
 };
 
 Modal.defaultProps = {
   editableTask: null,
 };
 
-export default Modal;
+const mapStateToProps = state => ({
+  editableTask: state.todoList.editableTask,
+});
+const mapDispatchToProps = dispatch => {
+  return {
+    onAddNewTask: data => dispatch(addNewTask(data)),
+    onUpdateTask: data => dispatch(updateTask(data)),
+    onDeleteEditableTask: () => dispatch(deleteEditableTask()),
+  };
+};
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(Modal);

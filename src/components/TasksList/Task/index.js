@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import './Task.scss';
+import { setEditableTask, toggleTaskStatus, deleteTask } from '../../../actions/todoList';
 
 import BaseButton from '../../ui/BaseButton';
 
@@ -21,14 +23,14 @@ class Task extends Component {
   };
 
   editTask = task => {
-    const { setEditableTask, toggleModal } = this.props;
-    setEditableTask(task);
+    const { onSetEditableTask, toggleModal } = this.props;
+    onSetEditableTask(task);
     toggleModal();
     this.toggleControls();
   };
 
   render() {
-    const { task, index, toggleTaskStatus, deleteTask } = this.props;
+    const { task, onToggleTaskStatus, onDeleteTask } = this.props;
     const { title, description, priority, isDone } = task;
     const { isControlsShown } = this.state;
     return (
@@ -52,9 +54,9 @@ class Task extends Component {
               isControlsShown ? 'd-flex' : 'd-none'
             }`}
           >
-            <BaseButton text="Done" name="done-btn" handleClick={() => toggleTaskStatus(index)} />
+            <BaseButton text="Done" name="done-btn" handleClick={() => onToggleTaskStatus(task)} />
             <BaseButton text="Edit" name="edit-btn" handleClick={() => this.editTask(task)} />
-            <BaseButton text="Delete" name="delete-btn" handleClick={() => deleteTask(index)} />
+            <BaseButton text="Delete" name="delete-btn" handleClick={() => onDeleteTask(task)} />
           </div>
         </div>
       </div>
@@ -64,10 +66,21 @@ class Task extends Component {
 
 Task.propTypes = {
   task: PropTypes.instanceOf(Object).isRequired,
-  index: PropTypes.number.isRequired,
-  toggleTaskStatus: PropTypes.func.isRequired,
-  setEditableTask: PropTypes.func.isRequired,
+  onToggleTaskStatus: PropTypes.func.isRequired,
+  onSetEditableTask: PropTypes.func.isRequired,
   toggleModal: PropTypes.func.isRequired,
-  deleteTask: PropTypes.func.isRequired,
+  onDeleteTask: PropTypes.func.isRequired,
 };
-export default Task;
+
+const mapDispatchToProps = dispatch => {
+  return {
+    onSetEditableTask: data => dispatch(setEditableTask(data)),
+    onToggleTaskStatus: data => dispatch(toggleTaskStatus(data)),
+    onDeleteTask: data => dispatch(deleteTask(data)),
+  };
+};
+
+export default connect(
+  null,
+  mapDispatchToProps
+)(Task);

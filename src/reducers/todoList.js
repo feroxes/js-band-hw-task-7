@@ -27,6 +27,7 @@ export default (state = initialState, { type, payload }) => {
       return {
         ...state,
         tasksList: state.tasksList.map(item => {
+          // eslint-disable-next-line no-param-reassign
           if (item.id === payload.id) item = payload;
           return item;
         }),
@@ -50,6 +51,7 @@ export default (state = initialState, { type, payload }) => {
       return {
         ...state,
         tasksList: state.tasksList.map(item => {
+          // eslint-disable-next-line no-param-reassign
           if (item.id === payload.id) item.isDone = !item.isDone;
           return item;
         }),

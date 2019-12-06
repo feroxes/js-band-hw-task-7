@@ -1,0 +1,38 @@
+@import "../../../assets/scss/utils/vars";
+
+.task-item {
+  height: 300px;
+}
+
+.isDone {
+  position: relative;
+  &:before {
+    content: '';
+    display: block;
+    position: absolute;
+    width: 30px;
+    height: 30px;
+    background: url("https://img.icons8.com/color/48/000000/checked-2.png") center no-repeat;
+    background-size: 30px;
+    top: -10px;
+    right: -10px;
+  }
+}
+
+.controls-list {
+  right: 0;
+  top: 55px;
+  &:after {
+    content: '';
+    display: block;
+    position: absolute;
+    width: 8px;
+    height: 8px;
+    border-top: 1px solid #343a40;
+    border-left: 1px solid #343a40;
+    background-color: #f8f9fa;
+    transform: rotate(45deg);
+    top: -5px;
+    right: 15px;
+  }
+}

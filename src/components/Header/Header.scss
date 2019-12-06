@@ -1,0 +1,10 @@
+@import "../../assets/scss/utils/vars";
+@import "../../assets/scss/utils/mixins";
+
+.header {
+  height: 80px;
+  font-size: rem(30);
+  font-weight: 700;
+  box-shadow: 0 3px 15px -9px $boxShadow;
+  color: $mainFontColor;
+}

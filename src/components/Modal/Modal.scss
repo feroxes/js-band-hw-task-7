@@ -1,0 +1,17 @@
+@import "../../assets/scss/utils/vars";
+@import "../../assets/scss/utils/mixins";
+
+.modal-wrapper {
+  background-color: $boxShadow;
+  color: $neutral-primary;
+  top: 0;
+  left: 0;
+  z-index: 1;
+  .base-modal {
+    min-width: 310px;
+    background-color: $default-color;
+    .modal-title {
+      font-size: rem(27);
+    }
+  }
+}
